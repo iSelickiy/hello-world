@@ -5,6 +5,7 @@ services:
     restart: unless-stopped
     networks:
       - hello-world
+      - traefik
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.hello-world.rule=Host(`projects.selickiy.space`) && PathPrefix(`/hello-world`)"
@@ -16,3 +17,5 @@ services:
 networks:
   hello-world:
     driver: bridge
+  traefik:
+    external: true
