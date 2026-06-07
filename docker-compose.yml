@@ -1,0 +1,18 @@
+services:
+  app:
+    build: .
+    container_name: hello-world
+    restart: unless-stopped
+    networks:
+      - hello-world
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.hello-world.rule=Host(`projects.selickiy.space`) && PathPrefix(`/hello-world`)"
+      - "traefik.http.routers.hello-world.entrypoints=websecure"
+      - "traefik.http.routers.hello-world.tls.certresolver=letsencrypt"
+      - "traefik.http.middlewares.hello-world-stripprefix.stripprefix.prefixes=/hello-world"
+      - "traefik.http.routers.hello-world.middlewares=hello-world-stripprefix"
+
+networks:
+  hello-world:
+    driver: bridge
